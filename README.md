@@ -10,18 +10,18 @@ Geographic mapping of bee populations and health conditions
 Database storage using SQL/MongoDB
 User-driven interaction with filters and selections
 # How to Use
-Clone the repository:
-git clone https://github.com/your-repo-name.git
-Install dependencies:
-pip install -r requirements.txt
-Run the application:
-python app.py
-Open the interactive dashboard in a browser.
+1. Clone the repository:
+2. git clone https://github.com/your-repo-name.git
+3. Install dependencies:
+4. pip install -r requirements.txt
+5. Run the application:
+6. python app.py
+7. Open the interactive dashboard in a browser.
 # Ethical Considerations
 We have ensured that our data sources are credible and ethical.
 We respect privacy and transparency in data processing.
 Our visualizations aim to inform and raise awareness rather than mislead users.
-#Data Sources
+# Data Sources
 Save the Honey Bees Dataset
 US State and Territory Latitude and Longitude Data
 # References
