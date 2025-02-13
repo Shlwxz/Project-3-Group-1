@@ -1,0 +1,40 @@
+#map {
+  height: 800px;
+}
+
+.rounded-circle {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 2px solid #FFC107; /* Honeycomb color */
+}
+
+/* Bee Container */
+.bee-container {
+  position: relative;
+  text-align: center;
+  margin: 20px auto;
+  width: 1000000px; /* Adjust width as needed */
+  height: 1000000px; /* Adjust height as needed */
+  overflow: hidden; /* Prevents the bee from moving out of the container */
+}
+
+/* Bee Animation */
+.animated-bee {
+  width: 1000000px; /* Increased size for the bee */
+  height: 1000000px; /* Adjusted height to match */
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: flyBee 3s infinite ease-in-out; /* Start the animation */
+}
+
+/* Keyframes for Bee Animation */
+@keyframes flyBee {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(40px, -20px); }
+  50% { transform: translate(80px, 0); }
+  75% { transform: translate(40px, 20px); }
+  100% { transform: translate(0, 0); }
+}
+

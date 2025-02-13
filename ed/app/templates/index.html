@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save The Bees App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --honeycomb: #FFC107;
+            --bee-wings: #F5F5F5;
+            --pollination-green: #4CAF50;
+            --earthy-brown: #795548;
+            --sky-blue: #2196F3;
+        }
+
+        body {
+            background-color: var(--bee-wings);
+            color: var(--earthy-brown);
+        }
+
+        .navbar {
+            background-color: var(--honeycomb);
+        }
+
+        .navbar-brand, .nav-link {
+            color: var(--earthy-brown) !important;
+        }
+
+        .nav-link:hover {
+            color: var(--pollination-green) !important;
+        }
+
+        header {
+            background-color: var(--sky-blue);
+            color: var(--bee-wings);
+        }
+
+        #about {
+            background-color: var(--honeycomb);
+            color: var(--earthy-brown);
+        }
+
+        #features h3 {
+            color: var(--pollination-green);
+        }
+
+        footer {
+            background-color: var(--earthy-brown);
+            color: var(--bee-wings);
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Bee Container */
+        .bee-container {
+            position: relative;
+            text-align: center;
+            margin: 20px auto;
+            width: 300px; /* Adjust width as needed */
+            height: 300px; /* Adjust height as needed */
+            overflow: hidden; /* Prevents the bee from moving out of the container */
+        }
+
+        /* Bee Animation */
+        .animated-bee {
+            width: 25px; /* Smaller size for the bee */
+            height: 25px; /* Adjust height to match */
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: flyBee 3s infinite ease-in-out; /* Start the animation */
+        }
+
+        /* Keyframes for Bee Animation */
+        @keyframes flyBee {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(40px, -20px); }
+            50% { transform: translate(80px, 0); }
+            75% { transform: translate(40px, 20px); }
+            100% { transform: translate(0, 0); }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg" data-bs-theme="dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Navbar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/map">Map</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/about_us">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/works_cited">Works Cited</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    <header class="text-center py-5">
+        <div class="container">
+            <h1>Welcome to the Save The Bees App</h1>
+            <p class="lead">Bee population tracking and insights from 2015-2022</p>
+        </div>
+    </header>
+
+    <section id="about" class="py-5">
+        <div class="container text-center">
+            <h2>About This Project</h2>
+            <p>This app is designed to provide insight into how bee populations have changed in an intuitive and user-friendly way.</p>
+        </div>
+    </section>
+
+    <section id="features" class="container my-5">
+      <div class="row text-center">
+          <div class="col-md-6">
+              <h3>Interactive Maps</h3>
+              <p>Visualize bee colonies on dynamic maps.</p>
+          </div>
+          <div class="col-md-6">
+              <h3>Historical Trends</h3>
+              <p>Analyze past bee colony data for patterns and insights.</p>
+          </div>
+      </div>
+      <!-- Bee Animation -->
+      <div class="bee-container">
+          <img src="/static/images/bee5.jpg" alt="Flying Bee" class="animated-bee">
+      </div>
+  </section>
+
+    <footer class="text-center py-3">
+        <p>&copy; 2025 Save The Bees App. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+
