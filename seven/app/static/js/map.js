@@ -17,12 +17,12 @@ function createMap(min_year) {
 
   // Create the custom marker icon
   let customIcon = L.icon({
-    iconUrl: 'static/images/your-image.png',  // Path to the image in your local directory
-    iconSize: [32, 32],  // Size of the icon
-    iconAnchor: [16, 32],  // Point of the icon which will correspond to the marker's location
-    popupAnchor: [0, -32],  // Position of the popup relative to the icon
-    className: 'custom-marker'  // Optional, add a class for custom styling
-  });
+  iconUrl: 'css/images/honeyjar.jpg',  // Correct path to the image
+  iconSize: [32, 32],  // Size of the icon
+  iconAnchor: [16, 32],  // Point of the icon which will correspond to the marker's location
+  popupAnchor: [0, -32],  // Position of the popup relative to the icon
+  className: 'custom-marker'  // Optional, add a class for custom styling
+});
 
   // Assemble the API query URL.
   let url = `/api/v1.0/map_data/${min_year}`;
