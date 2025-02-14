@@ -15,6 +15,15 @@ function createMap(min_year) {
   attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
   });
 
+  // Create the custom marker icon
+  let customIcon = L.icon({
+  iconUrl: 'css/images/honeyjar.jpg',  // Correct path to the image
+  iconSize: [32, 32],  // Size of the icon
+  iconAnchor: [16, 32],  // Point of the icon which will correspond to the marker's location
+  popupAnchor: [0, -32],  // Position of the popup relative to the icon
+  className: 'custom-marker'  // Optional, add a class for custom styling
+});
+
   // Assemble the API query URL.
   let url = `/api/v1.0/map_data/${min_year}`;
   console.log(url);
