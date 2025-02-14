@@ -120,3 +120,25 @@ class SQLHelper():
         # Close the connection
         conn.close()
         return(df)
+
+    def queryThreatFactors(self):
+        # Create our session (link) from Python to the DB
+        conn = self.engine.connect()
+
+        # Define Query to get the average of each threat factor per year
+        query = text("""
+            SELECT year,
+                AVG(varroa_mites) AS avg_varroa_mites,
+                AVG(pesticides) AS avg_pesticides,
+                AVG(diseases) AS avg_diseases,
+                AVG(other_pests_and_parasites) AS avg_other_pests
+            FROM bees
+            GROUP BY year
+            ORDER BY year ASC;
+        """)
+        
+        df = pd.read_sql(query, con=conn)
+
+        # Close the connection
+        conn.close()
+        return(df)

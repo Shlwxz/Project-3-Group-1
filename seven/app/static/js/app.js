@@ -31,6 +31,7 @@ function doWork() {
   let min_year = d3.select("#min-year").property("value"); // user input
   let url1 = `/api/v1.0/bar_data/${min_year}`;
   let url2 = `/api/v1.0/table_data/${min_year}`
+  let url3 = `/api/v1.0/threat_factors`; // New API for threat factors
 
   // Make Request
   d3.json(url1).then(function (data) {
@@ -42,43 +43,143 @@ function doWork() {
     // Make Table
     makeTable(data);
   });
+  
+  // Fetch and update the new threat factors chart
+  d3.json(url3).then(function (data) {
+    makeThreatFactorsChart(data);
+  });
 }
 
 
 function makeTable(data) {
-  // Clear Table
-  tbody.html("");
-  dt_table.clear().destroy();
+  console.log("Table Data:", data); // Debugging
 
-  // Create Table
-  for (let i = 0; i < data.length; i++) {
-    let row = data[i];
-
-    // Create Table Row
-    let table_row = tbody.append("tr");
-
-    // Append Cells
-    table_row.append("td").text(row.state);
-    table_row.append("td").text(row.year);
-    table_row.append("td").text(row.total_colonies);
-    table_row.append("td").text(row.total_lost_colonies);
-    table_row.append("td").text(row.avg_percent_lost);
-    table_row.append("td").text(row.total_renovated_colonies);
-    table_row.append("td").text(row.avg_percent_renovated);
-    table_row.append("td").text(row.avg_varroa_mites);
-    table_row.append("td").text(row.avg_pesticide_use);
-    table_row.append("td").text(row.avg_diseases);
-    table_row.append("td").text(row.avg_other_pests);
-    table_row.append("td").text(row.avg_unknown_causes);
-
+  if (data.length === 0) {
+      console.log("No data received for table.");
+      return;
   }
 
-  // Make Table Interactive (again)
-  dt_table = new DataTable('#bees_table', {
-    order: [[0, 'desc']] // Sort by column 1 desc
-  });
+  // Define the desired column order
+  const columnOrder = [
+      "state",
+      "year",
+      "total_colonies",
+      "total_lost_colonies",
+      "avg_percent_lost",
+      "avg_percent_renovated",
+      "avg_varroa_mites",
+      "avg_pesticide_use",
+      "avg_diseases",
+      "avg_other_pests",
+      "avg_unknown_causes"
+  ];
+
+  // Mapping of database column names to user-friendly labels
+  const columnMappings = {
+      "state": "State",
+      "year": "Year",
+      "total_colonies": "Total Colonies",
+      "total_lost_colonies": "Lost Colonies",
+      "avg_percent_lost": "Percent Lost",
+      "avg_percent_renovated": "Percent Renovated",
+      "avg_varroa_mites": "Varroa Mites (%)",
+      "avg_pesticide_use": "Pesticide Use (%)",
+      "avg_diseases": "Diseases (%)",
+      "avg_other_pests": "Other Pests (%)",
+      "avg_unknown_causes": "Unknown Causes (%)"
+  };
+
+  // Define columns to format as percentages
+  const percentageColumns = [
+      "avg_percent_lost",
+      "avg_percent_renovated",
+      "avg_varroa_mites",
+      "avg_pesticide_use",
+      "avg_diseases",
+      "avg_other_pests",
+      "avg_unknown_causes"
+  ];
+
+  // Ensure only existing columns are used
+  let validColumns = columnOrder.filter(column => Object.keys(data[0]).includes(column));
+
+  // Extract and order column headers
+  let displayNames = validColumns.map(column => columnMappings[column] || column);
+
+  // Process table data and format percentage values
+  let tableValues = validColumns.map(column => 
+      data.map(row => {
+          if (percentageColumns.includes(column) && row[column] !== null) {
+              return `${parseFloat(row[column]).toFixed(2)}%`; // Format as percentage
+          }
+          return row[column]; // Return as is for non-percentage values
+      })
+  );
+
+  // Destroy existing table if necessary
+  if (document.getElementById("plotlyTable")) {
+      Plotly.purge("plotlyTable");
+  }
+
+  // Create the Plotly Table
+  let plotlyTable = {
+      type: 'table',
+      header: {
+          values: displayNames,  // Use user-friendly names
+          align: ["center"],  // Center the column headers
+          fill: { color: "lightgray" },
+          font: { size: 14, color: "black" }
+      },
+      cells: {
+          values: tableValues,
+          align: "center",
+          fill: { color: ["white", "lightblue"] },
+          font: { size: 12 }
+      }
+  };
+
+  let layout = {
+      // title: "Bee Colony Data Table",
+      margin: { t: 30, b: 30 }
+  };
+
+  Plotly.newPlot("plotlyTable", [plotlyTable], layout);
 }
 
+
+// function makeTable(data) {
+//   // Clear Table
+//   tbody.html("");
+//   dt_table.clear().destroy();
+
+//   // Create Table
+//   for (let i = 0; i < data.length; i++) {
+//     let row = data[i];
+
+//     // Create Table Row
+//     let table_row = tbody.append("tr");
+
+//     // Append Cells
+//     table_row.append("td").text(row.state);
+//     table_row.append("td").text(row.year);
+//     table_row.append("td").text(row.total_colonies);
+//     table_row.append("td").text(row.total_lost_colonies);
+//     table_row.append("td").text(row.avg_percent_lost);
+//     table_row.append("td").text(row.total_renovated_colonies);
+//     table_row.append("td").text(row.avg_percent_renovated);
+//     table_row.append("td").text(row.avg_varroa_mites);
+//     table_row.append("td").text(row.avg_pesticide_use);
+//     table_row.append("td").text(row.avg_diseases);
+//     table_row.append("td").text(row.avg_other_pests);
+//     table_row.append("td").text(row.avg_unknown_causes);
+
+//   }
+
+//   // Make Table Interactive (again)
+//   dt_table = new DataTable('#bees_table', {
+//     order: [[0, 'desc']] // Sort by column 1 desc
+//   });
+// }
 
 function makeBarPlot(data) {
   // Create Trace
@@ -114,4 +215,76 @@ function makeBarPlot(data) {
 
   // Render the plot to the div tag with id "plot"
   Plotly.newPlot('plot', traces, layout);
+}
+
+function makeThreatFactorsChart(data) {
+  // Extracting data for the bar chart
+  let years = data.map(d => d.year);
+  let varroaMites = data.map(d => d.avg_varroa_mites);
+  let pesticides = data.map(d => d.avg_pesticides);
+  let diseases = data.map(d => d.avg_diseases);
+  let otherPests = data.map(d => d.avg_other_pests);
+
+  // Check if the chart already exists and destroy it (to prevent duplication)
+  if (window.threatFactorsChart instanceof Chart) {
+    window.threatFactorsChart.destroy();
+  }
+
+  // Select the chart canvas
+  const ctx = document.getElementById('threatFactorsChart').getContext('2d');
+
+  // Create the Chart.js bar chart with white background
+  window.threatFactorsChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: years,
+      datasets: [
+        {
+          label: 'Varroa Mites',
+          data: varroaMites,
+          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Pesticides',
+          data: pesticides,
+          backgroundColor: 'rgba(54, 162, 235, 0.6)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Diseases',
+          data: diseases,
+          backgroundColor: 'rgba(255, 206, 86, 0.6)',
+          borderColor: 'rgba(255, 206, 86, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Other Pests',
+          data: otherPests,
+          backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'top' }
+      },
+      scales: {
+        x: { title: { display: true, text: 'Year' } },
+        y: { title: { display: true, text: 'Average Impact (%)' }, beginAtZero: true }
+      },
+      layout: {
+        padding: 10
+      },
+      backgroundColor: 'white', // Set background color
+    }
+  });
+
+  // Set the canvas background color manually using CSS
+  document.getElementById('threatFactorsChart').style.backgroundColor = 'white';
 }
