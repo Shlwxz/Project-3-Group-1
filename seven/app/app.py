@@ -1,4 +1,6 @@
 import pandas as pd
+import plotly.graph_objects as go
+import sqlite3
 from flask import Flask, jsonify, render_template, redirect, request
 from sqlHelper import SQLHelper
 
@@ -77,6 +79,29 @@ def threat_factors():
     data = df.to_dict(orient="records")
     return jsonify(data)
 
+@app.route("/api/v1.0/sunburst")
+def sunburst_data():
+    try:
+        df, year_totals, quarter_totals = sqlHelper.querySunburstData()  # ✅ Correctly unpacks the tuple
+
+        labels = [f"Year {y}" for y in year_totals.keys()]
+        parents = [""] * len(year_totals)  # Year has no parent
+        values = list(year_totals.values())
+
+        if quarter_totals:
+            labels += [f"Q{q} ({y})" for (y, q) in quarter_totals.keys()]
+            parents += [f"Year {y}" for (y, q) in quarter_totals.keys()]
+            values += list(quarter_totals.values())
+
+        labels += df["state"].tolist()
+        parents += [f"Q{q} ({y})" for (y, q) in zip(df["year"], df["quarter"])] if quarter_totals else [f"Year {y}" for y in df["year"]]
+        values += df["lost_colonies"].tolist()
+
+        return jsonify({"labels": labels, "parents": parents, "values": values})
+
+    except Exception as e:
+        print(f"🚨 Error in Sunburst API: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 #############################################################
 
 # ELIMINATE CACHING

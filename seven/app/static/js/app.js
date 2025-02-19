@@ -55,6 +55,9 @@ function doWork() {
   d3.json(url2).then(makeTrendChart);
   d3.json(url3).then(makeThreatPieChart);
   d3.json(url2).then(makeChoropleth);
+
+  // Load the Sunburst Chart
+  makeSunburstChart();
 }
 
 
@@ -205,7 +208,7 @@ function makeBarPlot(data) {
   // Apply a title to the layout
   let layout = {
     title: {
-      text: `Bee Data`
+      text: `Total Lost Colonies by Year`
     },
     yaxis: {
       title: {
@@ -403,12 +406,58 @@ function makeThreatPieChart(data) {
   let trace = {
       values: values,
       labels: labels,
-      type: 'pie'
+      type: 'pie',
+      hole: 0.4,  // ✅ Turns it into a donut chart
+      marker: {
+          colors: [
+              "#FFC107",  // Honeycomb (Varroa Mites)
+              "#D84315",  // Wildflower Red (Pesticides)
+              "#4CAF50",  // Pollination Green (Diseases)
+              "#795548"   // Earthy Brown (Other Pests)
+          ]
+      },
+      textinfo: "percent",  // Show percentages inside the donut
+      hoverinfo: "label+percent+value"  // Show details on hover
   };
 
   let layout = {
-      title: "Threats to Bee Colonies"
+      title: "🚨 Threats to Bee Colonies 🚨",
+      height: 550,
+      width: 750
   };
 
   Plotly.newPlot("pie-chart", [trace], layout);
+}
+
+function makeSunburstChart() {
+  d3.json("/api/v1.0/sunburst").then(function (data) {
+      let trace = {
+          type: "sunburst",
+          labels: data.labels,
+          parents: data.parents,
+          values: data.values,
+          branchvalues: "total",
+          marker: {
+              colors: [
+                  "#FFC107",  // Honeycomb (Years)
+                  "#FF9800",  // Hive Orange (Quarters)
+                  "#4CAF50",  // Pollination Green (States)
+                  "#2196F3",  // Sky Blue
+                  "#795548"   // Earthy Brown
+              ]
+          }
+      };
+
+      let layout = {
+        //title: "🌍 Sunburst Chart of Lost Bee Colonies",
+        height: 600,   // Keep height reasonable
+        width: 600,    // Keep width reasonable
+        margin: { t: 20, l: 20, r: 20, b: 20 },  // Reduce margins
+        sunburstcolorway: ["#FFC107", "#FF9800", "#4CAF50", "#2196F3", "#795548"],  // Keep colors
+        uniformtext: { show: true, minsize: 10 },  // Improve text readability
+    };
+
+
+      Plotly.newPlot("sunburst-chart", [trace], layout);
+  });
 }

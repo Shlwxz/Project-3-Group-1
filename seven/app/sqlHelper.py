@@ -142,3 +142,28 @@ class SQLHelper():
         # Close the connection
         conn.close()
         return(df)
+    
+    def querySunburstData(self):
+        # Create our session (link) from Python to the DB
+        conn = self.engine.connect()
+
+        # Define Query to get the average of each threat factor per year
+        query = text("""
+            SELECT year, quarter, state, SUM(lost_colonies) AS lost_colonies
+            FROM bees
+            WHERE quarter IS NOT NULL
+            GROUP BY year, quarter, state
+        """)
+        
+        df = pd.read_sql(query, con=conn)
+
+        # Compute total colony loss at the YEAR level
+        year_totals = df.groupby("year")["lost_colonies"].sum().to_dict()
+
+        # Compute total colony loss at the QUARTER level
+        quarter_totals = df.groupby(["year", "quarter"])["lost_colonies"].sum().to_dict()
+
+        # Close the connection
+        conn.close()
+        return df, year_totals, quarter_totals
+    
