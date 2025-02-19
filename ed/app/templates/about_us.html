@@ -12,54 +12,65 @@
             --pollination-green: #4CAF50;
             --earthy-brown: #795548;
             --sky-blue: #2196F3;
+            --hover-color: var(--sky-blue); /* Updated hover color */
+            --active-white: #FFFFFF; /* Active state color */
         }
-
+    
         body {
             background-color: var(--bee-wings);
             color: var(--earthy-brown);
         }
-
+    
         .navbar {
             background-color: var(--honeycomb);
         }
-
+    
         .navbar-brand {
             color: var(--earthy-brown) !important;
             margin-left: 10px;
         }
-
+    
         .navbar-nav .nav-link {
             color: var(--earthy-brown) !important;
         }
-
+    
         .navbar-nav .nav-link:hover {
-            color: var(--pollination-green) !important;
+            color: var(--hover-color) !important;
         }
-
+    
+        .navbar-nav .nav-link.active {
+            font-weight: bold;
+            color: var(--active-white) !important;
+        }
+    
+        .navbar-nav .nav-link.active:hover {
+            color: var(--hover-color) !important;
+        }
+    
         header {
             background-color: var(--sky-blue);
             color: var(--bee-wings);
         }
-
+    
         .btn-outline-dark {
             border-color: var(--pollination-green);
             color: var(--pollination-green);
         }
-
+    
         .btn-outline-dark:hover {
             background-color: var(--pollination-green);
             color: var(--bee-wings);
         }
-
+    
         footer {
             background-color: var(--earthy-brown);
             color: var(--bee-wings);
         }
-
+    
         footer p {
             margin: 0;
         }
-
+    
         /* Profile image and button styling */
         .profile-img {
             width: 150px;
@@ -67,7 +78,7 @@
             object-fit: cover;
             border-radius: 50%;
         }
-
+    
         .social-btn {
             margin: 5px;
         }
@@ -84,7 +95,7 @@
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav ms-auto"> <!-- ms-auto makes the nav links align to the right -->
                     <li class="nav-item">
-                        <a class="nav-link active" href="/" style="color: var(--earthy-brown);">Home</a>
+                        <a class="nav-link" href="/" style="color: var(--earthy-brown);">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/dashboard" style="color: var(--earthy-brown);">Dashboard</a>
@@ -93,7 +104,7 @@
                         <a class="nav-link" href="/map" style="color: var(--earthy-brown);">Map</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about_us" style="color: var(--earthy-brown);">About Us</a>
+                        <a class="nav-link active" href="/about_us" style="color: var(--earthy-brown);">About Us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/works_cited" style="color: var(--earthy-brown);">Works Cited</a>

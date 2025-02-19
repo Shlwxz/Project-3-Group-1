@@ -12,6 +12,8 @@
             --pollination-green: #4CAF50;
             --earthy-brown: #795548;
             --sky-blue: #2196F3;
+            --hover-color: var(--sky-blue); /* Updated hover color */
+            --active-white: #FFFFFF; /* Active state color */
         }
 
         body {
@@ -33,7 +35,16 @@
         }
 
         .navbar-nav .nav-link:hover {
-            color: var(--pollination-green) !important;
+            color: var(--hover-color) !important; /* Sky blue on hover */
+        }
+
+        .navbar-nav .nav-link.active {
+            font-weight: bold;
+            color: var(--active-white) !important; /* Bold and white for active page */
+        }
+
+        .navbar-nav .nav-link.active:hover {
+            color: var(--hover-color) !important; /* Sky blue on hover for active link */
         }
 
         header {
@@ -174,6 +185,7 @@
     </script>
 </body>
 </html>
+
 
 
 

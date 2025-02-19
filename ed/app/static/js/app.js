@@ -12,6 +12,8 @@
 let table = d3.select("#bees_table");
 let tbody = table.select("tbody");
 
+let myMap;
+
 // Make Table Interactive
 let dt_table = new DataTable('#bees_table');
 
@@ -48,6 +50,11 @@ function doWork() {
   d3.json(url3).then(function (data) {
     makeThreatFactorsChart(data);
   });
+
+  // ADD NEW VISUALIZATIONS
+  d3.json(url2).then(makeTrendChart);
+  d3.json(url3).then(makeThreatPieChart);
+  d3.json(url2).then(makeChoropleth);
 }
 
 
@@ -133,7 +140,7 @@ function makeTable(data) {
       cells: {
           values: tableValues,
           align: "center",
-          fill: { color: ["white", "lightblue"] },
+          fill: { color: ["white", '#90CAF9'] },
           font: { size: 12 }
       }
   };
@@ -188,7 +195,7 @@ function makeBarPlot(data) {
     y: data.map(row => row.total_lost_colonies),
     type: 'bar',
     marker: {
-      color: 'firebrick'
+      color: '#FFC107'
     }
   }
 
@@ -242,29 +249,29 @@ function makeThreatFactorsChart(data) {
         {
           label: 'Varroa Mites',
           data: varroaMites,
-          backgroundColor: 'rgba(255, 99, 132, 0.6)',
-          borderColor: 'rgba(255, 99, 132, 1)',
+          backgroundColor: '#FFC107', // Honeycomb
+          borderColor: '#795548', // Earthy Brown
           borderWidth: 1
         },
         {
           label: 'Pesticides',
           data: pesticides,
-          backgroundColor: 'rgba(54, 162, 235, 0.6)',
-          borderColor: 'rgba(54, 162, 235, 1)',
+          backgroundColor: '#4CAF50', // Pollination Green
+          borderColor: '#795548', // Earthy Brown
           borderWidth: 1
         },
         {
           label: 'Diseases',
           data: diseases,
-          backgroundColor: 'rgba(255, 206, 86, 0.6)',
-          borderColor: 'rgba(255, 206, 86, 1)',
+          backgroundColor: '#2196F3', // Sky Blue
+          borderColor: '#4CAF50', // Pollination Green
           borderWidth: 1
         },
         {
           label: 'Other Pests',
           data: otherPests,
-          backgroundColor: 'rgba(75, 192, 192, 0.6)',
-          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: '#F5F5F5', // Bee Wings
+          borderColor: '#FFC107', // Honeycomb
           borderWidth: 1
         }
       ]
@@ -287,4 +294,121 @@ function makeThreatFactorsChart(data) {
 
   // Set the canvas background color manually using CSS
   document.getElementById('threatFactorsChart').style.backgroundColor = 'white';
+}
+
+function createMap(min_year) {
+  if (!document.getElementById("map")) {
+      console.error("Map container not found. Ensure there is a <div id='map'></div> in the HTML.");
+      return;
+  }
+
+  if (myMap) {
+      myMap.remove(); // Prevent duplicate maps
+  }
+
+  myMap = L.map("map", {
+      center: [37.8, -96], // US Center
+      zoom: 4
+  });
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(myMap);
+}
+
+// Ensure map creation only runs after DOM is fully loaded
+document.addEventListener("DOMContentLoaded", function () {
+  createMap(2015);
+});
+
+function getColor(d) {
+  return d > 25 ? '#4A001F' :  // Dark Burgundy (Extreme Loss)
+         d > 20 ? '#800026' :  // Dark Red (Severe Loss)
+         d > 15 ? '#D84315' :  // Orange-Red (Very High Loss)
+         d > 10 ? '#FF5722' :  // Bright Orange (High Loss)
+         d > 5 ? '#FFC107' :  // Yellow-Orange (Moderate-High Loss)
+         d > 3 ? '#FFEB3B' :  // Yellow (Moderate Loss)
+         d > 2 ? '#C0E218' :  // Light Green-Yellow (Mild Loss)
+         d > 1 ? '#4CAF50' :  // Green (Low Loss)
+                  '#F5F5F5';    // Light Gray (Minimal or No Data)
+}
+
+function makeChoropleth(data) {
+  let geoJsonData = "static/data/us-states.json"; 
+  d3.json(geoJsonData).then(function (geoData) {
+      for (let i = 0; i < data.length; i++) {
+          let state = data[i].state;
+          let colonyLoss = data[i].avg_percent_lost;
+
+          geoData.features.forEach(feature => {
+              if (feature.properties.name === state) {
+                  feature.properties.colonyLoss = colonyLoss || 0;
+              }
+          });
+      }
+
+      L.geoJson(geoData, {
+          style: function (feature) {
+              let loss = feature.properties.colonyLoss || 0;
+              return {
+                  fillColor: getColor(loss),
+                  weight: 1,
+                  opacity: 1,
+                  color: 'white',
+                  fillOpacity: 0.7
+              };
+          },
+          onEachFeature: function (feature, layer) {
+              let loss = feature.properties.colonyLoss;
+              let lossText = loss !== undefined ? loss.toFixed(2) + "%" : "No Data";
+              layer.bindPopup(`<b>${feature.properties.name}</b><br>Colony Loss: ${lossText}`);
+          }
+      }).addTo(myMap); // Ensure myMap is used
+  });
+}
+
+function makeTrendChart(data) {
+  let states = [...new Set(data.map(d => d.state))];
+  
+  let traces = states.map(state => {
+      return {
+          x: data.filter(d => d.state === state).map(d => d.year),
+          y: data.filter(d => d.state === state).map(d => d.total_lost_colonies),
+          type: 'scatter',
+          mode: 'lines',
+          name: state
+      };
+  });
+
+  let layout = {
+      title: 'Colony Loss Trends Over Time',
+      xaxis: { title: 'Year' },
+      yaxis: { title: 'Total Colonies Lost' },
+      height: 500
+  };
+
+  Plotly.newPlot('trend-chart', traces, layout);
+}
+
+function makeThreatPieChart(data) {
+  let values = [
+      d3.mean(data.map(d => d.avg_varroa_mites)),
+      d3.mean(data.map(d => d.avg_pesticides)),
+      d3.mean(data.map(d => d.avg_diseases)),
+      d3.mean(data.map(d => d.avg_other_pests))
+  ];
+
+  let labels = ["Varroa Mites", "Pesticides", "Diseases", "Other Pests"];
+
+  let trace = {
+      values: values,
+      labels: labels,
+      type: 'pie'
+  };
+
+  let layout = {
+      title: "Threats to Bee Colonies"
+  };
+
+  Plotly.newPlot("pie-chart", [trace], layout);
 }

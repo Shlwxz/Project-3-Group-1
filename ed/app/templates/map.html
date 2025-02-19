@@ -6,13 +6,11 @@
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""/>
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
     <!-- Leaflet JavaScript code -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""></script>
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <!-- D3 library -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -42,6 +40,8 @@
             --pollination-green: #4CAF50;
             --earthy-brown: #795548;
             --sky-blue: #2196F3;
+            --hover-color: var(--sky-blue); /* Updated hover color */
+            --active-white: #FFFFFF; /* Active state color */
         }
 
         html, body {
@@ -59,7 +59,6 @@
         .navbar {
             background-color: var(--honeycomb);
         }
-        
 
         .navbar-brand,
         .nav-link {
@@ -67,7 +66,16 @@
         }
 
         .navbar-nav .nav-link:hover {
-            color: var(--sky-blue);
+            color: var(--hover-color) !important; /* Sky blue on hover */
+        }
+
+        .navbar-nav .nav-link.active {
+            font-weight: bold;
+            color: var(--active-white) !important; /* Active page color is white */
+        }
+
+        .navbar-nav .nav-link.active:hover {
+            color: var(--hover-color) !important; /* Sky blue on hover for active link */
         }
 
         h1 {
@@ -115,13 +123,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="/">Home</a>
+                        <a class="nav-link" href="/">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/map">Map</a>
+                        <a class="nav-link active" href="/map">Map</a> <!-- Active page set to Map -->
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/about_us">About Us</a>
@@ -158,5 +166,7 @@
 
 </body>
 </html>
+
+
 
 
