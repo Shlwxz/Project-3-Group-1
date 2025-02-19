@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bees Data</title>
-
+    <title>Document</title>
     <!-- JS Imports -->
+    <!-- Leaflet must be loaded BEFORE your custom JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -15,191 +17,126 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- CSS Imports -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css">
     <link href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.min.css" rel="stylesheet">
-
-    <style>
-        :root {
-            --honeycomb: #FFC107;
-            --bee-wings: #F5F5F5;
-            --pollination-green: #4CAF50;
-            --earthy-brown: #795548;
-            --sky-blue: #2196F3;
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow-y: auto;
-        }
-
-        body {
-            background-color: var(--bee-wings);
-            color: var(--earthy-brown);
-        }
-
-        .navbar {
-            background-color: var(--honeycomb);
-        }
-
-        .navbar-brand,
-        .nav-link {
-            color: var(--earthy-brown) !important;
-        }
-
-        h1 {
-            color: var(--sky-blue);
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .btn-primary {
-            background-color: var(--pollination-green);
-            border-color: var(--pollination-green);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--earthy-brown);
-            border-color: var(--earthy-brown);
-            color: var(--bee-wings);
-        }
-
-        label {
-            color: var(--earthy-brown);
-        }
-
-        canvas,
-        #plot,
-        #plotlyTable {
-            border: 2px solid var(--pollination-green);
-            margin-top: 20px;
-            border-radius: 8px;
-        }
-
-        .container-fluid {
-            padding-bottom: 20px; /* Ensure space below last table */
-        }
-
-        /* Specific style for the table container */
-        #plotlyTable {
-            max-height: 400px; /* Set max height */
-            overflow-y: scroll; /* Enable vertical scrolling */
-            margin-top: 20px;
-            padding: 10px;
-            border-radius: 8px;
-            background-color: white;
-        }
-
-        footer {
-            background-color: var(--earthy-brown);
-            color: var(--bee-wings);
-            text-align: center;
-            padding: 10px 0;
-        }
-    </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/dashboard">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/map">Map</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about_us">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/works_cited">Works Cited</a>
-                    </li>
-                </ul>
-            </div>
+          <a class="navbar-brand" href="#">Navbar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/map">Map</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/about_us">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/works_cited">Works Cited</a>
+              </li>
+            </ul>
+          </div>
         </div>
-    </nav>
+      </nav>
 
     <h1>Bees Data!</h1>
     <div class="container-fluid">
-        <div class="row">
+      <div class="row">
+        <div class="col-md-4">
+          <label for="min-year">Min Year</label>
+          <input class="form-control" id="min-year" type="number" value="2015" min="2015">
+        </div>
+        <div class="col-md-4">
+            <label for="state-select">State</label>
+            <select class="form-control" id="state-select">
+                <option value="All">All</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="colony-loss-slider">Colony Loss (%)</label>
+            <input type="range" class="form-control-range" id="colony-loss-slider" min="0" max="100" value="50">
+            <span id="colony-loss-value">50%</span>
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary mt-2" id="filter-btn">Apply Filters</button>
+        <!-- <div class="row">
             <div class="col-md-12">
                 <label class="col-form-label mt-4" for="min-year">Min Year</label>
                 <input class="form-control" id="min-year" name="min-year" type="number" value="2015" min="2015">
-                <button type="button" class="btn btn-primary mt-3" id="filter-btn">Filter!</button>
-            </div>
+                <button type="button" class="btn btn-primary" id="filter-btn">Filter!</button>
+            </div> -->
         </div>
         <div class="row">
-            <div class="col-md-6">
-                <h3 class="text-center">Threat Factors by Year</h3>
-                <canvas id="threatFactorsChart"></canvas>
-            </div>
-            <div class="col-md-6">
-                <h3 class="text-center">Bar Chart</h3>
-                <div id="plot"></div>
-            </div>
+          <!-- COLUMN -->
+          <div class="col-md-6">
+            <h3 class="text-center">Threat Factors by Year</h3>
+            <canvas id="threatFactorsChart"></canvas>
+          </div>
+            <!-- BAR -->
+            <div class="col-md-6"><div id="plot"></div></div>
+            <div class="col-md-6"><div id="trend-chart"></div></div>
+            <div class="col-md-6"><div id="pie-chart"></div></div>
+            <div class="container">
+              <h2 class="text-center mt-3">📊 Bee Colony Loss Heatmap (USA) 🐝</h2>
+              <p class="text-center">This map visualizes the percentage of bee colonies lost per state over time. Darker colors indicate higher colony loss.</p>
+              
+              <div class="row justify-content-center">
+                  <div class="col-md-10"> <!-- Adjust width by changing col-md-* -->
+                      <div id="map-container">
+                          <div id="map" style="height: 600px;"></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+            <div id="map-container"><div id="map" style="height: 500px;"></div>
+          </div>
+          
+            <!-- Table -->
             <div class="col-md-12">
-                <h3 class="text-center">Bee Data Table</h3>
-                <div id="plotlyTable">
-                    <table id="example" class="display" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Year</th>
-                                <th>Threat Factor</th>
-                                <th>Bee Count</th>
-                                <th>Region</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>2015</td>
-                                <td>Climate Change</td>
-                                <td>1000</td>
-                                <td>USA</td>
-                            </tr>
-                            <tr>
-                                <td>2016</td>
-                                <td>Pesticides</td>
-                                <td>900</td>
-                                <td>Canada</td>
-                            </tr>
-                            <tr>
-                                <td>2017</td>
-                                <td>Habitat Loss</td>
-                                <td>800</td>
-                                <td>Australia</td>
-                            </tr>
-                            <!-- Add more rows as necessary -->
-                        </tbody>
-                    </table>
-                </div>
+              <h3 class="text-center">Bee Data Table</h3>
+              <div id="plotlyTable"></div> <!-- Plotly Table Container -->
             </div>
+            <!-- <div class="col-md-6"> -->
+                <!-- Table -->
+                <!-- <table id="bees_table" class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>State</th>
+                            <th>Year</th>
+                            <th>Total Colonies</th>
+                            <th>Total Lost Colonies</th>
+                            <th>Percent Lost</th>
+                            <th>Renovated Colonies</th>
+                            <th>% Renovated Colonies</th>
+                            <th>% Affected by Verroa Mites</th>
+                            <th>% Affected by Pesticide Use</th>
+                            <th>% Affected by Diseases</th>
+                            <th>% Affected by Other Pests</th>
+                            <th>% Affected by Unknown Causes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div> -->
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2025 Save The Bees. All rights reserved.</p>
-    </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="static/js/app.js"></script>
-
-    <!-- DataTables Initialization -->
-    <script>
-        $(document).ready(function() {
-            $('#example').DataTable();
-        });
-    </script>
 </body>
 
 </html>
-
