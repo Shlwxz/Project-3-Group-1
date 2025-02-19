@@ -14,27 +14,36 @@
   position: relative;
   text-align: center;
   margin: 20px auto;
-  width: 1000000px; /* Adjust width as needed */
-  height: 1000000px; /* Adjust height as needed */
-  overflow: hidden; /* Prevents the bee from moving out of the container */
+  width: 100%; /* Full width for multiple bees */
+  height: 300px; /* Adjust height as needed */
+  overflow: hidden;
 }
 
 /* Bee Animation */
 .animated-bee {
-  width: 1000000px; /* Increased size for the bee */
-  height: 1000000px; /* Adjusted height to match */
+  width: 50px; /* Size of each bee */
+  height: 50px;
   position: absolute;
-  top: 0;
-  left: 0;
-  animation: flyBee 3s infinite ease-in-out; /* Start the animation */
+  top: 50%; /* Default start at the middle */
+  left: 50%; /* Default start at the middle */
+  transform: translate(-50%, -50%);
+  animation: flyBee 3s infinite ease-in-out; /* Shared animation */
 }
+
+/* Individual Bee Positions */
+.bee-1 { top: 20%; left: 10%; animation-delay: 0s; }
+.bee-2 { top: 40%; left: 30%; animation-delay: 1s; }
+.bee-3 { top: 60%; left: 70%; animation-delay: 2s; }
 
 /* Keyframes for Bee Animation */
 @keyframes flyBee {
   0% { transform: translate(0, 0); }
-  25% { transform: translate(40px, -20px); }
-  50% { transform: translate(80px, 0); }
-  75% { transform: translate(40px, 20px); }
+  25% { transform: translate(50px, -30px); }
+  50% { transform: translate(100px, 0); }
+  75% { transform: translate(50px, 30px); }
   100% { transform: translate(0, 0); }
 }
 
+.custom-icon {
+  color: #FFC107; /* Honeycomb color */
+}

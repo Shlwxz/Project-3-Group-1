@@ -23,11 +23,16 @@
             background-color: var(--honeycomb);
         }
 
-        .navbar-brand, .nav-link {
+        .navbar-brand {
+            color: var(--earthy-brown) !important;
+            margin-left: 10px;
+        }
+
+        .navbar-nav .nav-link {
             color: var(--earthy-brown) !important;
         }
 
-        .nav-link:hover {
+        .navbar-nav .nav-link:hover {
             color: var(--pollination-green) !important;
         }
 
@@ -59,60 +64,61 @@
             position: relative;
             text-align: center;
             margin: 20px auto;
-            width: 300px; /* Adjust width as needed */
-            height: 300px; /* Adjust height as needed */
-            overflow: hidden; /* Prevents the bee from moving out of the container */
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
         }
 
         /* Bee Animation */
         .animated-bee {
-            width: 25px; /* Smaller size for the bee */
-            height: 25px; /* Adjust height to match */
+            width: 50px;
+            height: 50px;
             position: absolute;
-            top: 0;
-            left: 0;
-            animation: flyBee 3s infinite ease-in-out; /* Start the animation */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: flyBee 3s infinite ease-in-out;
         }
 
         /* Keyframes for Bee Animation */
         @keyframes flyBee {
             0% { transform: translate(0, 0); }
-            25% { transform: translate(40px, -20px); }
-            50% { transform: translate(80px, 0); }
-            75% { transform: translate(40px, 20px); }
+            25% { transform: translate(50px, -30px); }
+            50% { transform: translate(100px, 0); }
+            75% { transform: translate(50px, 30px); }
             100% { transform: translate(0, 0); }
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--honeycomb);">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarColor01">
-            <ul class="navbar-nav me-auto">
-              <li class="nav-item">
-                <a class="nav-link active" href="/">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/dashboard">Dashboard</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/map">Map</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/about_us">About Us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/works_cited">Works Cited</a>
-              </li>
-            </ul>
-          </div>
+            <a class="navbar-brand" href="/" style="color: var(--earthy-brown);">Save The Bees</a> <!-- Link to Home Page -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav ms-auto"> <!-- ms-auto makes the nav links align to the right -->
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/" style="color: var(--earthy-brown);">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard" style="color: var(--earthy-brown);">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/map" style="color: var(--earthy-brown);">Map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about_us" style="color: var(--earthy-brown);">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/works_cited" style="color: var(--earthy-brown);">Works Cited</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </nav>
+    </nav>
 
     <header class="text-center py-5">
         <div class="container">
@@ -129,25 +135,48 @@
     </section>
 
     <section id="features" class="container my-5">
-      <div class="row text-center">
-          <div class="col-md-6">
-              <h3>Interactive Maps</h3>
-              <p>Visualize bee colonies on dynamic maps.</p>
-          </div>
-          <div class="col-md-6">
-              <h3>Historical Trends</h3>
-              <p>Analyze past bee colony data for patterns and insights.</p>
-          </div>
-      </div>
-      <!-- Bee Animation -->
-      <div class="bee-container">
-          <img src="/static/images/bee5.jpg" alt="Flying Bee" class="animated-bee">
-      </div>
-  </section>
+        <div class="row text-center">
+            <div class="col-md-6">
+                <h3><a href="/map" class="text-primary text-decoration-none">Interactive Maps</a></h3>
+                <p>Visualize bee colonies on dynamic maps.</p>
+            </div>
+            <div class="col-md-6">
+                <h3><a href="/dashboard" class="text-primary text-decoration-none">Historical Trends</a></h3>
+                <p>Analyze past bee colony data for patterns and insights.</p>
+            </div>
+        </div>
+        <!-- Bee Animation -->
+        <div class="bee-container"></div>
+    </section>
 
     <footer class="text-center py-3">
         <p>&copy; 2025 Save The Bees App. All rights reserved.</p>
     </footer>
+
+    <script>
+        const beeContainer = document.querySelector('.bee-container');
+
+        // Function to create multiple bees
+        function createBees(count) {
+            for (let i = 0; i < count; i++) {
+                const bee = document.createElement('img');
+                bee.src = '/static/images/bee5.jpg'; // Update path as needed
+                bee.classList.add('animated-bee');
+                bee.style.top = `${Math.random() * 100}%`;
+                bee.style.left = `${Math.random() * 100}%`;
+                bee.style.animationDelay = `${Math.random() * 3}s`; // Random animation delay
+                beeContainer.appendChild(bee);
+            }
+        }
+
+        // Generate 10 bees
+        createBees(10);
+    </script>
 </body>
 </html>
+
+
+
+
+
 

@@ -68,6 +68,15 @@ def map_data(min_year):
     data = df.to_dict(orient="records")
     return jsonify(data)
 
+@app.route("/api/v1.0/threat_factors")
+def threat_factors():
+    # Execute query
+    df = sqlHelper.queryThreatFactors()
+
+    # Convert DataFrame to JSON format
+    data = df.to_dict(orient="records")
+    return jsonify(data)
+
 #############################################################
 
 # ELIMINATE CACHING

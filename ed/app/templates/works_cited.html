@@ -3,60 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Works Cited - Earthquake Data App</title>
+    <title>Works Cited - Save The Bees App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        /* Custom color palette */
+        :root {
+            --honeycomb: #FFC107; /* Honeycomb */
+            --bee-wings: #F5F5F5; /* Bee Wings */
+            --pollination-green: #4CAF50; /* Pollination Green */
+            --earthy-brown: #795548; /* Earthy Brown */
+            --sky-blue: #2196F3; /* Sky Blue */
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: var(--honeycomb);
+        }
+
+        .navbar-toggler-icon {
+            background-color: var(--pollination-green);
+        }
+
+        .navbar-nav .nav-link {
+            color: #000000; /* Navbar text color black */
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--sky-blue); /* Hover color */
+        }
+
+        /* Header styling */
+        header {
+            background-color: var(--honeycomb);
+            color: #FFFFFF;
+        }
+
+        header h1 {
+            color: var(--pollination-green);
+        }
+
+        /* Section titles */
+        section h2 {
+            color: var(--earthy-brown);
+        }
+
+        /* List group item styling */
+        .list-group-item {
+            background-color: var(--bee-wings);
+            color: var(--pollination-green);
+        }
+
+        .list-group-item a {
+            color: var(--sky-blue);
+        }
+
+        .list-group-item:hover {
+            background-color: var(--honeycomb);
+            color: #FFFFFF;
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: var(--earthy-brown);
+            color: #FFFFFF;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarColor01">
-            <ul class="navbar-nav me-auto">
-              <li class="nav-item">
-                <a class="nav-link active" href="/">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/dashboard">Dashboard</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/map">Map</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/about_us">About Us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/works_cited">Works Cited</a>
-              </li>
-            </ul>
-          </div>
+            <a class="navbar-brand" href="/">Save The Bees</a> <!-- Link to Home Page -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/map">Map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about_us">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/works_cited">Works Cited</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </nav>
+    </nav>
 
-    <header class="bg-primary text-white text-center py-5">
+    <!-- Header -->
+    <header class="text-center py-5">
         <div class="container">
             <h1>Works Cited</h1>
-            <p class="lead">Sources and references used in the Earthquake Data App</p>
+            <p class="lead">Sources and references used in the Save The Bees App</p>
         </div>
     </header>
 
+    <!-- Main content section -->
     <section class="container my-5">
         <h2>References</h2>
         <ul class="list-group">
-            <li class="list-group-item">United States Geological Survey (USGS). "Earthquake Data and Reports." <a href="https://www.usgs.gov/" target="_blank">www.usgs.gov</a></li>
-            <li class="list-group-item">Global Seismographic Network (GSN). "Seismic Monitoring Data." <a href="https://www.iris.edu/hq/programs/gsn" target="_blank">www.iris.edu</a></li>
-            <li class="list-group-item">National Earthquake Information Center (NEIC). "Historical Earthquake Trends." <a href="https://earthquake.usgs.gov/" target="_blank">earthquake.usgs.gov</a></li>
-            <li class="list-group-item">OpenStreetMap Contributors. "Mapping Data for Seismic Events." <a href="https://www.openstreetmap.org/" target="_blank">www.openstreetmap.org</a></li>
+            <li class="list-group-item">Save The Honey Bees. <a href="https://www.kaggle.com/datasets/m000sey/save-the-honey-bees/data" target="_blank">https://www.kaggle.com/datasets/m000sey/save-the-honey-bees/data</a></li>
         </ul>
     </section>
 
-    <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; 2025 Earthquake Data App. All rights reserved.</p>
+    <!-- Footer -->
+    <footer class="text-center py-3">
+        <p>&copy; 2025 Save The Bees App. All rights reserved.</p>
     </footer>
 
 </body>
 </html>
+
+
+
+
+
