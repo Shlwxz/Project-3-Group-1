@@ -15,14 +15,16 @@ function createMap(min_year) {
   attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
   });
 
-  // Create the custom marker icon
-  let customIcon = L.icon({
-  iconUrl: 'css/images/honeyjar.jpg',  // Correct path to the image
-  iconSize: [32, 32],  // Size of the icon
-  iconAnchor: [16, 32],  // Point of the icon which will correspond to the marker's location
-  popupAnchor: [0, -32],  // Position of the popup relative to the icon
-  className: 'custom-marker'  // Optional, add a class for custom styling
-});
+  // Create the custom marker icon using Bootstrap's x-diamond-fill icon
+  let customIcon = L.divIcon({
+    className: 'custom-icon',
+    html: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-diamond-fill" viewBox="0 0 16 16"><path d="M8 0l4 8-4 8-4-8 4-8z"/></svg>',
+    iconSize: [32, 32],  // Adjust the icon size
+    iconAnchor: [16, 32],  // Point of the icon which will correspond to the marker's location
+    popupAnchor: [0, -32],  // Position of the popup relative to the icon
+  });
+
+  // CUSTOM MARKER
 
   // Assemble the API query URL.
   let url = `/api/v1.0/map_data/${min_year}`;
@@ -40,8 +42,10 @@ function createMap(min_year) {
     for (let i = 0; i < data.length; i++){
       let row = data[i];
 
-      let marker = L.marker([row.latitude, row.longitude]).bindPopup(`<h1>${row.magnitude}</h1><h3>${row.year}</h3><h4>${row.type}</h4>`);
+      let marker = L.marker([row.latitude, row.longitude],{icon: customIcon}).bindPopup(`<h4>Average lost percent: ${row.avg_percent_lost}</h4><h4>Year: ${row.year}</h4><h4>Total Lost Colonies: ${row.total_lost_colonies
+      }</h4>`);
       markers.addLayer(marker);
+
 
       // Heatmap point
       heatArray.push([row.latitude, row.longitude]);
@@ -61,7 +65,7 @@ function createMap(min_year) {
 
     let overlayMaps = {
       HeatMap: heatLayer,
-      Earthquakes: markers
+      Beecolonies: markers
     };
 
     // Step 4: INITIALIZE THE MAP

@@ -44,3 +44,6 @@
   100% { transform: translate(0, 0); }
 }
 
+.custom-icon {
+  color: #FFC107; /* Honeycomb color */
+}
