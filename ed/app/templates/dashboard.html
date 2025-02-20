@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -48,21 +49,21 @@
 
         .navbar-brand,
         .nav-link {
-        color: var(--earthy-brown) !important;
-    }
+            color: var(--earthy-brown) !important;
+        }
 
-    .nav-link:hover {
-        color: var(--hover-color) !important;
-    }
+        .nav-link:hover {
+            color: var(--hover-color) !important;
+        }
 
-    .nav-link.active {
-        font-weight: bold;
-        color: var(--active-white) !important;
-    }
+        .nav-link.active {
+            font-weight: bold;
+            color: var(--active-white) !important;
+        }
 
-    .nav-link.active:hover {
-        color: var(--hover-color) !important;
-    }
+        .nav-link.active:hover {
+            color: var(--hover-color) !important;
+        }
 
         h1 {
             color: var(--sky-blue);
@@ -183,7 +184,22 @@
         <div id="map-container">
             <h2 class="text-center mt-3">📊 Bee Colony Loss Heatmap (USA) 🐝</h2>
             <p class="text-center">This map visualizes the percentage of bee colonies lost per state over time. Darker colors indicate higher colony loss.</p>
-            <div id="map" style="height: 600px;"></div>
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div id="map" style="height: 600px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-4">
+            <h3 class="text-center">🌍 Sunburst Chart of Lost Bee Colonies</h3>
+            <p class="text-center">Explore colony loss by year, quarter, and state.</p>
+            <div class="row">
+                <!-- Move the sunburst chart slightly back to the right -->
+                <div class="col-md-6 offset-md-3">
+                    <div id="sunburst-chart"></div>
+                </div>
+            </div>
         </div>
 
         <div class="row">
@@ -246,6 +262,9 @@
 </body>
 
 </html>
+
+
+
 
 
 
