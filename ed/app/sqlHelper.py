@@ -152,6 +152,7 @@ class SQLHelper():
             SELECT year, quarter, state, SUM(lost_colonies) AS lost_colonies
             FROM bees
             WHERE quarter IS NOT NULL
+            AND state NOT IN ('United States')  -- Exclude United States
             GROUP BY year, quarter, state
         """)
         

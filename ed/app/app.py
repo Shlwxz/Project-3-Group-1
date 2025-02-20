@@ -84,6 +84,9 @@ def sunburst_data():
     try:
         df, year_totals, quarter_totals = sqlHelper.querySunburstData()  # ✅ Correctly unpacks the tuple
 
+        # ✅ Remove "United States" from state-level data if still present
+        df = df[df["state"] != "United States"]
+
         labels = [f"Year {y}" for y in year_totals.keys()]
         parents = [""] * len(year_totals)  # Year has no parent
         values = list(year_totals.values())
