@@ -40,7 +40,7 @@ function createMap(min_year) {
     for (let i = 0; i < data.length; i++){
       let row = data[i];
 
-      let marker = L.marker([row.latitude, row.longitude]).bindPopup(`<h1>${row.magnitude}</h1><h3>${row.year}</h3><h4>${row.type}</h4>`);
+      let marker = L.marker([row.latitude, row.longitude]).bindPopup(`<h4>Average Percent Lost ${row.avg_percent_lost}</h4><h4>Total Colonies ${row.total_colonies}</h4><h4>Total Colonies Lost ${row.total_lost_colonies}</h4>`);
       markers.addLayer(marker);
 
       // Heatmap point
